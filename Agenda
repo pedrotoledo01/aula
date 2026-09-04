@@ -1,0 +1,102 @@
+# INICIO
+
+print('AGENDA DE CLIENTES')
+
+# ARMAZENA DADOS
+
+endereços = []
+nome = []
+numero_casa = []
+tel = []
+email = []
+
+operação = 0
+
+# RECEBE INFORMAÇÃO
+
+operação = int(input('Quantos cliente deseja adicionar a agenda?'))
+if operação <= 0:
+  print('Operação inválida')
+
+for i in range(operação):
+
+
+  nome.append(input('Digite o nome do cliente:'))
+  endereços.append(input('Digite o endereço do cliente:'))
+  numero_casa.append(input('Digite o numero da casa do cliente:'))
+  tel.append(input('Digite o telefone do cliente:'))
+  email.append(input('Digite o email do cliente:'))
+
+  # Conferência
+
+  confirmacao = int(input(
+        "\nAs informações estão corretas?\n"
+        "1 - Sim\n"
+        "2 - Não\n"
+        "Escolha: "
+    ))
+
+  if confirmacao == 2:
+        print("\nDigite os dados novamente.")
+        # If not confirmed, remove the last added items
+        if nome: nome.pop()
+        if endereços: endereços.pop()
+        if numero_casa: numero_casa.pop()
+        if tel: tel.pop()
+        if email: email.pop()
+
+
+
+print("\nDados salvos.")
+
+#xml
+
+import xml.etree.ElementTree as ET # Para ler um arquivo XML do seu computador:
+
+
+agenda = ET.Element('agenda')
+
+# Iterate through the collected data to create XML for each client
+for i in range(len(nome)): # Assuming all lists have the same length
+    pessoa = ET.SubElement(agenda, 'pessoa')
+
+    nome_element = ET.SubElement(pessoa, 'nome')
+    nome_element.text = nome[i]
+
+    endereco_element = ET.SubElement(pessoa, 'endereco')
+    endereco_element.text = endereços[i]
+
+    numero_casa_element = ET.SubElement(pessoa, 'numero_casa')
+    numero_casa_element.text = numero_casa[i]
+
+    telefone_element = ET.SubElement(pessoa, 'telefone')
+    telefone_element.text = tel[i]
+
+    email_element = ET.SubElement(pessoa, 'email')
+    email_element.text = email[i]
+
+tree = ET.ElementTree(agenda)
+tree.write('agenda.xml')
+
+tree = ET.parse('agenda.xml')
+root = tree.getroot()
+
+pessoas = root.findall('pessoa')
+
+for pessoa_element in pessoas: 
+
+  nome_parsed = pessoa_element.find('nome').text
+  endereco_parsed = pessoa_element.find('endereco').text
+  numero_casa_parsed = pessoa_element.find('numero_casa').text
+  telefone_parsed = pessoa_element.find('telefone').text
+  email_parsed = pessoa_element.find('email').text
+
+  print(f'Nome: {nome_parsed}')
+  print(f'Endereço: {endereco_parsed}')
+  print(f'Número da casa: {numero_casa_parsed}')
+  print(f'Telefone: {telefone_parsed}')
+  print(f'Email: {email_parsed}')
+  print()
+
+
+# FIM fase 1
